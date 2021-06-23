@@ -28,38 +28,47 @@ class CampsiteInfo extends Component {
 	}
 	//Method: Render Comments takes in the renders array
 	renderComments(comments) {
-		//Check if comments are NOT null or undefined
 		if (comments) {
 			return (
 				<div className='col-md-5 m-1'>
 					<h4>Comments</h4>
+					{comments.map((comment) => {
+						return (
+							<div>
+								<p>
+									{comment.text}
+									<br />
+									--{comment.author}{" "}
+									{new Intl.DateTimeFormat("en-US", {
+										year: "numeric",
+										month: "short",
+										day: "2-digit",
+									}).format(new Date(Date.parse(comment.date)))}
+								</p>
+							</div>
+						);
+					})}
 				</div>
-/*			{this.props.comments.map(
-					(eachElement) => {
-						return <li>{eachElement}</li>;
-			}			)}
-*/				
-		);
+			);
 		}
-		else {			
-			return (<div></div>);
-		}
-		
 	}
 
 	render() {
 		//Check if it is null or empty
 		if (this.props.campsite) {
 			return (
-				<div>
-					<div className='row'>{this.renderCampsite(this.props.campsite)}</div>
-					<div className='row'>{this.renderComments(this.props.campsite.comments)}</div>
+				<div className="container">
+					<div className='row'>
+						{this.renderCampsite(this.props.campsite)}					
+						{this.renderComments(this.props.campsite.comments)}
+					</div>
 				</div>
 			);
-		} else {
-			return (<div></div>);
+		}
+		
+	     return <div />;
 		}
 	}
-} /* end class CampsiteInfo*/
+ /* end class CampsiteInfo*/
 
 export default CampsiteInfo;
