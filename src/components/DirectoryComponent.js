@@ -2,9 +2,9 @@ import React, { Component } from "react";
 
 import { Card, CardImg, CardImgOverlay, CardTitle } from "reactstrap";
 
-function RenderDirectoryItem({ campsite, onClick }) {
+function RenderDirectoryItem({ campsite }) {
 	return (
-		<Card onClick={() => onClick(campsite.id)}>
+		<Card>
 			<CardImg width='100%' src={campsite.image} alt={campsite.name} />
 			<CardImgOverlay>
 				<CardTitle>{campsite.name}</CardTitle>
@@ -14,27 +14,21 @@ function RenderDirectoryItem({ campsite, onClick }) {
 }
 
 function Directory(props) {
-	
-		/* Go thru all of the campsites from the local state
+	/* Go thru all of the campsites from the local state
       make a new array. Has a diff. campsite for each item*/
-		const directory = props.campsites.map(campsite => {
-			return (
-				<div key={campsite.id} className='col-md-5 m-1'>
-                 <RenderDirectoryItem campsite={campsite} onClick={props.onClick} />
-				</div>
-			);
-		});
+	const directory = props.campsites.map((campsite) => {
+		return (
+			<div key={campsite.id} className='col-md-5 m-1'>
+				<RenderDirectoryItem campsite={campsite} />
+			</div>
+		);
+	});
 
-
-    return (
-        <div className="container">
-            <div className="row">
-                {directory}
-            </div>
-        </div>
-    );
+	return (
+		<div className='container'>
+			<div className='row'>{directory}</div>
+		</div>
+	);
 }
-
-
 
 export default Directory;
