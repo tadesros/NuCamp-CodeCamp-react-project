@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Directory from "./DirectoryComponent";
+/* From Task One Week 3 */
+import About from "./AboutComponent";
 import { CAMPSITES } from "../shared/campsites";
 import CampsiteInfo from "./CampsiteInfoComponent";
 import Header from "./HeaderComponent";
@@ -37,6 +39,21 @@ class Main extends Component {
 			);
 		};
 
+		const CampsiteWithId = ({ match }) => {
+			return (
+				<CampsiteInfo
+					campsite={
+						this.state.campsites.filter(
+							(campsite) => campsite.id === +match.params.campsiteId
+						)[0]
+					}
+					comments={this.state.comments.filter(
+						(comment) => comment.campsiteId === +match.params.campsiteId
+					)}
+				/>
+			);
+		};
+
 		return (
 			<div>
 				<Header />
@@ -48,7 +65,17 @@ class Main extends Component {
 						path='/directory'
 						render={() => <Directory campsites={this.state.campsites} />}
 					/>
+
+					<Route path='/directory/:campsiteId' component={CampsiteWithId} />
+
+					<Route
+						exact
+						path='/aboutus'
+						render={() => <About partners={this.state.partners} />}
+					/>
+
 					<Route exact path='/contactus' component={Contact} />
+
 					<Redirect to='/home' />
 				</Switch>
 
