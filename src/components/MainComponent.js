@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import Directory from "./DirectoryComponent";
-/* From Task One Week 3 */
-import About from "./AboutComponent";
 import { CAMPSITES } from "../shared/campsites";
 import CampsiteInfo from "./CampsiteInfoComponent";
 import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
 import Home from "./HomeComponent";
 import Contact from "./ContactComponent";
+import About from "./AboutComponent";
 import { COMMENTS } from "../shared/comments";
 import { PARTNERS } from "../shared/partners";
 import { PROMOTIONS } from "../shared/promotions";

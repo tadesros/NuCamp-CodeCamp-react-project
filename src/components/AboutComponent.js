@@ -15,16 +15,37 @@ import { Link } from 'react-router-dom';
 //export default AboutComponent;
 
 //** NEW TASK 2 */
-//function RenderPartner({partner})
-//{
+function RenderPartner({partner})
+{
+   
+    if (partner)
+    {
+        return (
+        <React.Fragment>
+                
+            <Media object src={partner.image} alt={partner.name} width="150" />
+                
+            <Media body className="ml-5 mb-4">
 
-// }
+                <Media heading>{partner.name}</Media>
+                {partner.description}
+
+            </Media>
+        </React.Fragment> )
+    }
+    else
+    {
+        return <div />
+
+    }
+}
 
 function About(props) {
 
     const partners = props.partners.map(partner => {
         return (
-            <h5>{partner.name}</h5>
+    //        <h5>{partner.name}</h5>
+            <Media tag="li" key={partner.id}><RenderPartner item={props} /></Media>
         );
     });
 
