@@ -18,14 +18,9 @@ import {
 import { Link } from "react-router-dom";
 import { Control, LocalForm, Errors } from "react-redux-form";
 
-
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
 const minLength = (len) => (val) => val && val.length >= len;
-
-
-
-
 
 /************************** METHODS  ***********************/
 //Methods: Render Campsite information
@@ -101,14 +96,9 @@ function CampsiteInfo(props) {
 	}
 	return <div />;
 }
-
-
-
-
-
-
 //Add a class component
 class CommentForm extends Component {
+
 	constructor(props) {
 		super(props);
 
@@ -129,12 +119,12 @@ class CommentForm extends Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
+	//Toggle Modal
 	toggleModal() {
 		this.setState({
 			isModalOpen: !this.state.isModalOpen,
 		});
 	}
-
 	//lOG CURRENT STATE TO THE CONSOLE.
 	handleSubmit(values) {
 		console.log("Current state is: " + JSON.stringify(values));
@@ -144,7 +134,7 @@ class CommentForm extends Component {
 
 	render() {
 		return (
-			<React.Fragment>
+			<React.Fragment>				
 				<Button outline onClick={this.toggleModal}>
 					<i className='fa fa-pencil fa-lg' />
 					Submit Comment
@@ -158,10 +148,10 @@ class CommentForm extends Component {
 						<LocalForm onSubmit={(values) => this.handleSubmit(values)}>
 							{/* RATING */}
 							<Row className='form-group'>
+
 								<Label htmlFor='rating' md={2}>
 									Rating
 								</Label>
-
 								<Col md={10}>
 									<Control.select
 										model='.rating'
@@ -191,7 +181,7 @@ class CommentForm extends Component {
 										placeholder='Author'
 										className='form-control'
 										validators={{
-											required,
+									//		required,
 											minLength: minLength(2),
 											maxLength: maxLength(15),
 										}}
