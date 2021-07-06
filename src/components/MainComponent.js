@@ -7,8 +7,9 @@ import Home from "./HomeComponent";
 import Contact from "./ContactComponent";
 import About from "./AboutComponent";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
-
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
+//make the action available for use within the CampsiteInfo
+import { addComment } from "../redux/ActionCreators";
 
 const mapStateToProps = (state) => {
 	return {
@@ -18,13 +19,16 @@ const mapStateToProps = (state) => {
 		promotions: state.promotions,
 	};
 };
-
-
-
+//Need to dispatch the action.
+//Can do this as a function or an object.
+//Recommended as an object.
+//Call action creator calling in data.
+const mapDispatchToProps = {
+	addComment: (campsiteId, rating, author, text) =>
+		addComment(campsiteId, rating, author, text),
+};
 
 class Main extends Component {
-
-
 	render() {
 		const HomePage = () => {
 			return (
@@ -51,6 +55,8 @@ class Main extends Component {
 					comments={this.props.comments.filter(
 						(comment) => comment.campsiteId === +match.params.campsiteId
 					)}
+					//Add addcomment function as a prop
+					addComment={this.props.addComment}
 				/>
 			);
 		};
@@ -82,4 +88,4 @@ class Main extends Component {
 	}
 }
 /* export file */
-export default withRouter(connect(mapStateToProps)(Main));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

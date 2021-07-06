@@ -13,7 +13,7 @@ import {
 	ModalBody,
 	Col,
 	Row,
-	Label
+	Label,
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import { Control, LocalForm, Errors } from "react-redux-form";
@@ -30,7 +30,6 @@ function RenderCampsite({ campsite }) {
 			<Card>
 				<CardImg top src={campsite.image} alt={campsite.name} />
 				<CardBody>
-
 					<CardText>{campsite.description}</CardText>
 				</CardBody>
 			</Card>
@@ -38,7 +37,7 @@ function RenderCampsite({ campsite }) {
 	);
 }
 //Method: Render Comments takes in the renders array
-function RenderComments({ comments }) {
+function RenderComments({ comments, addComment, campsiteId }) {
 	if (comments) {
 		return (
 			<div className='col-md-5 m-1'>
@@ -60,10 +59,8 @@ function RenderComments({ comments }) {
 					);
 				})}
 
-
 				{/*Render Comment Form Button*/}
-				<CommentForm />
-
+				<CommentForm campsiteId={campsiteId} addComment={addComment} />
 			</div>
 		);
 	}
@@ -72,7 +69,6 @@ function CampsiteInfo(props) {
 	if (props.campsite) {
 		return (
 			<div className='container'>
-
 				<div className='row'>
 					<div className='col'>
 						<Breadcrumb>
@@ -88,9 +84,12 @@ function CampsiteInfo(props) {
 
 				<div className='row'>
 					<RenderCampsite campsite={props.campsite} />
-					<RenderComments comments={props.comments} />
+					<RenderComments
+						comments={props.comments}
+						addComment={props.addComment}
+						campsiteId={props.campsite.id}
+					/>
 				</div>
-				
 			</div>
 		);
 	}
@@ -98,7 +97,6 @@ function CampsiteInfo(props) {
 }
 //Add a class component
 class CommentForm extends Component {
-
 	constructor(props) {
 		super(props);
 
@@ -127,14 +125,24 @@ class CommentForm extends Component {
 	}
 	//lOG CURRENT STATE TO THE CONSOLE.
 	handleSubmit(values) {
-		console.log("Current state is: " + JSON.stringify(values));
-		alert("Current state is: " + JSON.stringify(values));
-		//This prevents refreshing the entire page.
+		this.toggleModal();
+		//When form is submitted the add form action creator will
+		//add action using the values from the form.
+		//action will get dispatched to reducer and update the state
+		this.props.addComment(
+			this.props.campsiteId,
+			values.rating,
+			values.author,
+			values.text
+		);
+
+		// console.log("Current state is: " + JSON.stringify(values));
+		// alert("Current state is: " + JSON.stringify(values));
 	}
 
 	render() {
 		return (
-			<React.Fragment>				
+			<React.Fragment>
 				<Button outline onClick={this.toggleModal}>
 					<i className='fa fa-pencil fa-lg' />
 					Submit Comment
@@ -148,7 +156,6 @@ class CommentForm extends Component {
 						<LocalForm onSubmit={(values) => this.handleSubmit(values)}>
 							{/* RATING */}
 							<Row className='form-group'>
-
 								<Label htmlFor='rating' md={2}>
 									Rating
 								</Label>
@@ -181,7 +188,7 @@ class CommentForm extends Component {
 										placeholder='Author'
 										className='form-control'
 										validators={{
-									//		required,
+											//		required,
 											minLength: minLength(2),
 											maxLength: maxLength(15),
 										}}
@@ -230,6 +237,5 @@ class CommentForm extends Component {
 		);
 	}
 }
-
 
 export default CampsiteInfo;
