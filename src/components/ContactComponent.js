@@ -8,7 +8,10 @@ import {
 	Row
 } from "reactstrap";
 import { Link } from "react-router-dom";
-import { Control, LocalForm, Errors } from "react-redux-form";
+import { Control, Form, Errors, actions } from "react-redux-form";
+
+
+
 
 //Validation Logic
 //Check to see if empty and a specific length
@@ -59,6 +62,7 @@ class Contact extends Component {
 		console.log("Current state is: " + JSON.stringify(values));
 		alert("Current state is: " + JSON.stringify(values));
 		//This prevents refreshing the entire page.
+	    this.props.resetFeedbackForm();
 	
 	}
 	//Since changing to object type must use render.
@@ -113,7 +117,10 @@ class Contact extends Component {
 						<hr />
 					</div>
 					<div className='col-md-10'>
-						<LocalForm onSubmit={(values) => this.handleSubmit(values)}>
+						<Form
+							model='feedbackForm'
+							onSubmit={(values) => this.handleSubmit(values)}
+						>
 							<Row className='form-group'>
 								<Label htmlFor='firstName' md={2}>
 									First Name
@@ -263,7 +270,7 @@ class Contact extends Component {
 									</Button>
 								</Col>
 							</Row>
-						</LocalForm>
+						</Form>
 					</div>
 				</div>
 			</div> //End Container
