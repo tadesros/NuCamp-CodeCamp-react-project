@@ -1,6 +1,6 @@
 //Import from ActionTypes all named exports
 import * as ActionTypes from "./ActionTypes";
-import { CAMPSITES } from "../shared/campsites";
+import { baseUrl } from "../shared/baseURL";
 
 //Define Action Creator Function
 //Pass in all values needed to create a comment
@@ -24,9 +24,9 @@ export const addComment = (campsiteId, rating, author, text) => ({
 export const fetchCampsites = () => (dispatch) => {
 	dispatch(campsitesLoading());
 
-	setTimeout(() => {
-		dispatch(addCampsites(CAMPSITES));
-	}, 2000);
+ return fetch(baseUrl + "campsites")
+		.then((response) => response.json())
+		.then((campsites) => dispatch(addCampsites(campsites)));
 };
 
 export const campsitesLoading = () => ({
@@ -43,4 +43,46 @@ export const campsitesFailed = (errMess) => ({
 export const addCampsites = (campsites) => ({
 	type: ActionTypes.ADD_CAMPSITES,
 	payload: campsites,
+});
+
+//Action Creator: Fetch Comments
+export const fetchComments = () => (dispatch) => {
+	return fetch(baseUrl + "comments")
+		.then((response) => response.json())
+		.then((comments) => dispatch(addComments(comments)));
+};
+
+
+export const commentsFailed = (errMess) => ({
+	type: ActionTypes.COMMENTS_FAILED,
+	payload: errMess,
+});
+
+export const addComments = (comments) => ({
+	type: ActionTypes.ADD_COMMENTS,
+	payload: comments,
+});
+
+
+export const fetchPromotions = () => (dispatch) => {
+	dispatch(promotionsLoading());
+
+	return fetch(baseUrl + "promotions")
+		.then((response) => response.json())
+		.then((promotions) => dispatch(addPromotions(promotions)));
+};
+
+
+export const promotionsLoading = () => ({
+	type: ActionTypes.PROMOTIONS_LOADING,
+});
+
+export const promotionsFailed = (errMess) => ({
+	type: ActionTypes.PROMOTIONS_FAILED,
+	payload: errMess,
+});
+
+export const addPromotions = (promotions) => ({
+	type: ActionTypes.ADD_PROMOTIONS,
+	payload: promotions,
 });

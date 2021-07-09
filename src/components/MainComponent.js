@@ -10,7 +10,12 @@ import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { actions } from "react-redux-form";
 //make the action available for use within the CampsiteInfo
-import { addComment, fetchCampsites } from "../redux/ActionCreators";
+import {
+	addComment,
+	fetchCampsites,
+	fetchComments,
+	fetchPromotions,
+} from "../redux/ActionCreators";
 
 const mapStateToProps = (state) => {
 	return {
@@ -26,9 +31,11 @@ const mapStateToProps = (state) => {
 //Call action creator calling in data.
 const mapDispatchToProps = {
 	addComment: (campsiteId, rating, author, text) =>
-    addComment(campsiteId, rating, author, text),
+		addComment(campsiteId, rating, author, text),
 	fetchCampsites: () => fetchCampsites(),
-	resetFeedbackForm: () => actions.reset("feedbackForm")
+	resetFeedbackForm: () => actions.reset("feedbackForm"),
+	fetchComments: () => fetchComments(),
+	fetchPromotions: () => fetchPromotions(),
 };
 
 class Main extends Component {
@@ -37,7 +44,10 @@ class Main extends Component {
 	//render - is a lifecycle method
 	//Component did mount - after method created
 	componentDidMount() {
-		this.props.fetchCampsites();
+        this.props.fetchCampsites();
+		this.props.fetchComments();
+		this.props.fetchPromotions();
+
 	}
 
 	render() {
@@ -52,8 +62,12 @@ class Main extends Component {
 					campsitesLoading={this.props.campsites.isLoading}
 					campsitesErrMess={this.props.campsites.errMess}
 					promotion={
-						this.props.promotions.filter((promotion) => promotion.featured)[0]
+						this.props.promotions.promotions.filter(
+							(promotion) => promotion.featured
+						)[0]
 					}
+					promotionLoading={this.props.promotions.isLoading}
+					promotionErrMess={this.props.promotions.errMess}
 					partner={this.props.partners.filter((partner) => partner.featured)[0]}
 				/>
 			);
@@ -68,11 +82,11 @@ class Main extends Component {
 						)[0]
 					}
 					isLoading={this.props.campsites.isLoading}
-					errMess = {this.props.campsites.errMess}
-					comments={this.props.comments.filter(
+					errMess={this.props.campsites.errMess}
+					comments={this.props.comments.comments.filter(
 						(comment) => comment.campsiteId === +match.params.campsiteId
 					)}
-					//Add addcomment function as a prop
+					commentsErrMess={this.props.comments.errMess}
 					addComment={this.props.addComment}
 				/>
 			);
