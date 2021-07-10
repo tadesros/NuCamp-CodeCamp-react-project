@@ -79,8 +79,6 @@ export const addComments = (comments) => ({
 	type: ActionTypes.ADD_COMMENTS,
 	payload: comments,
 });
-
-
 //Define Action Creator Function
 //Pass in all values needed to create a comment
 //Return object with type and payload
@@ -133,8 +131,6 @@ export const postComment = (campsiteId, rating, author, text) => (dispatch) => {
 		});
 };
 
-
-
 export const fetchPromotions = () => (dispatch) => {
 	dispatch(promotionsLoading());
 
@@ -161,7 +157,6 @@ export const fetchPromotions = () => (dispatch) => {
 		.catch((error) => dispatch(promotionsFailed(error.message)));
 };
 
-
 export const promotionsLoading = () => ({
 	type: ActionTypes.PROMOTIONS_LOADING,
 });
@@ -174,4 +169,45 @@ export const promotionsFailed = (errMess) => ({
 export const addPromotions = (promotions) => ({
 	type: ActionTypes.ADD_PROMOTIONS,
 	payload: promotions,
+});
+
+//Group task
+export const fetchPartners = () => (dispatch) => {
+	dispatch(partnersLoading());
+
+	return fetch(baseUrl + "partners")
+		.then(
+			(response) => {
+				if (response.ok) {
+					return response;
+				} else {
+					const error = new Error(
+						`Error ${response.status}: ${response.statusText}`
+					);
+					error.response = response;
+					throw error;
+				}
+			},
+			(error) => {
+				const errMess = new Error(error.message);
+				throw errMess;
+			}
+		)
+		.then((response) => response.json())
+		.then((partners) => dispatch(addPartners(partners)))
+		.catch((error) => dispatch(partnersFailed(error.message)));
+};
+
+export const partnersLoading = () => ({
+	type: ActionTypes.PARTNERS_LOADING,
+});
+
+export const partnersFailed = (errMess) => ({
+	type: ActionTypes.PARTNERS_FAILED,
+	payload: errMess,
+});
+
+export const addPartners = (partners) => ({
+	type: ActionTypes.ADD_PARTNERS,
+	payload: partners,
 });
