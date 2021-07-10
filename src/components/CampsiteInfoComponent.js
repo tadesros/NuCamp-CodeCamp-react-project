@@ -39,7 +39,7 @@ function RenderCampsite({ campsite }) {
 	);
 }
 //Method: Render Comments takes in the renders array
-function RenderComments({ comments, addComment, campsiteId }) {
+function RenderComments({ comments, postComment, campsiteId }) {
 	if (comments) {
 		return (
 			<div className='col-md-5 m-1'>
@@ -62,7 +62,7 @@ function RenderComments({ comments, addComment, campsiteId }) {
 				})}
 
 				{/*Render Comment Form Button*/}
-				<CommentForm campsiteId={campsiteId} addComment={addComment} />
+				<CommentForm campsiteId={campsiteId} postComment={postComment} />
 			</div>
 		);
 	}
@@ -110,7 +110,7 @@ function CampsiteInfo(props) {
 					<RenderCampsite campsite={props.campsite} />
 					<RenderComments
 						comments={props.comments}
-						addComment={props.addComment}
+						postComment={props.postComment}
 						campsiteId={props.campsite.id}
 					/>
 				</div>
@@ -153,7 +153,7 @@ class CommentForm extends Component {
 		//When form is submitted the add form action creator will
 		//add action using the values from the form.
 		//action will get dispatched to reducer and update the state
-		this.props.addComment(
+		this.props.postComment(
 			this.props.campsiteId,
 			values.rating,
 			values.author,
